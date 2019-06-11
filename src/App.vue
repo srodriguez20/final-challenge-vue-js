@@ -2,7 +2,9 @@
   <div id="app">
     <toolbar/>
     <navigation/>
-    <main class="content"></main>
+    <main class="content">
+      <p>{{appointments[0]}}</p>
+    </main>
   </div>
 </template>
 
@@ -11,7 +13,18 @@ import Toolbar from "./components/Toolbar.vue";
 import Navigation from "./components/Navigation.vue";
 export default {
   name: "app",
-  components: { Toolbar, Navigation }
+  components: { Toolbar, Navigation },
+  created() {
+    this.$store.dispatch("fetchAppointments");
+  },
+  updated() {
+    console.log(this.appointments);
+  },
+  computed: {
+    appointments() {
+      return this.$store.getters.appointments;
+    }
+  }
 };
 </script>
 
