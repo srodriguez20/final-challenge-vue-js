@@ -1,22 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <toolbar/>
+    <navigation/>
+    <main class="content"></main>
   </div>
 </template>
 
 <script>
+import Toolbar from "./components/Toolbar.vue";
+import Navigation from "./components/Navigation.vue";
 export default {
-  name: "app"
+  name: "app",
+  components: { Toolbar, Navigation }
 };
 </script>
 
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.content {
+  background-color: #fbfbfb;
 }
 </style>
