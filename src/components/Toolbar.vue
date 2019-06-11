@@ -30,6 +30,7 @@ export default {};
   flex-direction: row;
   align-items: center;
   img {
+    background-color: #ffffff;
     border-radius: 50%;
     border: 2px solid blue;
     width: 50px;
