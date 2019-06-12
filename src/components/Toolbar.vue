@@ -32,11 +32,12 @@ export default {};
   img {
     background-color: #ffffff;
     border-radius: 50%;
-    border: 2px solid blue;
+    border: 2px solid #4d8ee2;
     width: 50px;
     height: auto;
   }
   span {
+    margin: 0 20px;
     color: #ffffff;
     font-weight: lighter;
   }

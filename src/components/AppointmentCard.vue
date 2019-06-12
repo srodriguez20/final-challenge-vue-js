@@ -1,5 +1,5 @@
 <template>
-  <div class="appoinment-card">
+  <div class="appoinment-card" tabindex="0">
     <div class="hour">
       <div>
         <time>3:30 PM</time>
@@ -18,7 +18,7 @@
     <div class="date-info">
       <time>September 10th</time>
       <span>
-        <i>•</i>Confirmed
+        <i class="material-icons">fiber_manual_record</i>Confirmed
       </span>
     </div>
     <div class="actions">
@@ -38,11 +38,13 @@ export default { props: { reward: Object } };
 
 <style lang="scss" scoped>
 .appoinment-card {
+  min-height: 90px;
+  background-color: #ffffff;
+  border-radius: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #ffffff;
-  border-radius: 15px;
+  margin: 20px 0;
   overflow: hidden;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1);
   > div {
@@ -61,7 +63,7 @@ export default { props: { reward: Object } };
   padding-left: 20px;
   div {
     padding: 5px 20px;
-    border-right: 1px solid;
+    border-right: 1px solid #edf2f5;
     time:first-child {
       font-weight: bold;
     }
@@ -73,6 +75,20 @@ export default { props: { reward: Object } };
   align-items: center;
   img {
     border-radius: 50%;
+    margin-right: 20px;
+    background-color: #f0f8ff;
+  }
+  h4 {
+    color: #000034;
+    margin: 0;
+  }
+  i {
+    color: #000034;
+  }
+  address {
+    font-style: normal;
+    font-size: 14px;
+    color: #9e9e9e;
   }
 }
 .date-info {
@@ -81,12 +97,17 @@ export default { props: { reward: Object } };
   time {
     font-weight: bold;
   }
+  i {
+    margin-right: 3px;
+    font-size: 12px;
+  }
 }
 .actions {
   align-items: center;
   padding: 0 40px;
   i {
-    font-size: 14px;
+    color: #9e9e9e;
+    font-size: 15px;
     padding: 0 15px;
   }
 }
