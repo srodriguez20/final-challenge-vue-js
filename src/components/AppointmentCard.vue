@@ -7,7 +7,10 @@
       </div>
     </div>
     <div class="details">
-      <img src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1" alt>
+      <avatar
+        src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1"
+        alt="User Icon"
+      />
       <div>
         <h4>Meghan Smith</h4>
         <address>
@@ -33,7 +36,8 @@
 </template>
 
 <script>
-export default { props: { reward: Object } };
+import Avatar from "../components/Avatar.vue";
+export default { components: { Avatar }, props: { reward: Object } };
 </script>
 
 <style lang="scss" scoped>
@@ -73,10 +77,8 @@ export default { props: { reward: Object } };
   flex-direction: row;
   padding: 0 20px;
   align-items: center;
-  img {
-    border-radius: 50%;
-    margin-right: 20px;
-    background-color: #f0f8ff;
+  > div {
+    margin-left: 20px;
   }
   h4 {
     color: #000034;

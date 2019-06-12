@@ -5,6 +5,7 @@
       <toolbar/>
       <p>{{appointments[0]}}</p>
       <appointment-list/>
+      <appointment-detail></appointment-detail>
     </main>
   </div>
 </template>
@@ -13,9 +14,10 @@
 import Toolbar from "./components/Toolbar.vue";
 import Navigation from "./components/Navigation.vue";
 import AppointmentList from "./containers/AppointmentsList.vue";
+import AppointmentDetail from "./containers/AppointmentDetail.vue";
 export default {
   name: "app",
-  components: { Toolbar, Navigation, AppointmentList },
+  components: { Toolbar, Navigation, AppointmentList, AppointmentDetail },
   created() {
     this.$store.dispatch("fetchAppointments");
   },
