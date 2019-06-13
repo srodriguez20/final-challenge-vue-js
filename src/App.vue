@@ -4,6 +4,7 @@
     <main class="content">
       <toolbar/>
       <p>{{appointments[0]}}</p>
+      <filter-bar/>
       <appointment-list/>
       <appointment-detail></appointment-detail>
     </main>
@@ -11,13 +12,20 @@
 </template>
 
 <script>
+import FilterBar from "./components/FilterBar.vue";
 import Toolbar from "./components/Toolbar.vue";
 import Navigation from "./components/Navigation.vue";
 import AppointmentList from "./containers/AppointmentsList.vue";
 import AppointmentDetail from "./containers/AppointmentDetail.vue";
 export default {
   name: "app",
-  components: { Toolbar, Navigation, AppointmentList, AppointmentDetail },
+  components: {
+    Toolbar,
+    Navigation,
+    AppointmentList,
+    AppointmentDetail,
+    FilterBar
+  },
   created() {
     this.$store.dispatch("fetchAppointments");
   },
@@ -32,7 +40,7 @@ export default {
 };
 </script>
 
-<style>
+<style  lang="scss" scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
