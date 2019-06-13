@@ -23,6 +23,7 @@ export default {};
   background-color: #000034;
   h1 {
     color: #ffffff;
+    margin: 20px 0;
   }
 }
 .avatar {

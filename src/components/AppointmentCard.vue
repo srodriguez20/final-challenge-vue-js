@@ -20,24 +20,27 @@
     </div>
     <div class="date-info">
       <time>September 10th</time>
-      <span>
-        <i class="material-icons">fiber_manual_record</i>Confirmed
-      </span>
+      <status value="cancelled"/>
     </div>
     <div class="actions">
-      <a href>
-        <i class="material-icons">launch</i>
-      </a>
-      <a href>
-        <i class="material-icons">clear</i>
-      </a>
+      <icon-button link>
+        <i class="material-icons" slot="icon">launch</i>
+      </icon-button>
+      <icon-button link>
+        <i class="material-icons" slot="icon">clear</i>
+      </icon-button>
     </div>
   </div>
 </template>
 
 <script>
+import IconButton from "../components/IconButton.vue";
 import Avatar from "../components/Avatar.vue";
-export default { components: { Avatar }, props: { reward: Object } };
+import Status from "../components/Status.vue";
+export default {
+  components: { Avatar, Status, IconButton },
+  props: { reward: Object }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -107,10 +110,12 @@ export default { components: { Avatar }, props: { reward: Object } };
 .actions {
   align-items: center;
   padding: 0 40px;
+  a {
+    margin: 0 10px;
+  }
   i {
     color: #9e9e9e;
     font-size: 15px;
-    padding: 0 15px;
   }
 }
 </style>
