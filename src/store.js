@@ -22,7 +22,7 @@ export default new Vuex.Store({
       let collection = db.collection("appointments");
       return new Promise((resolve, reject) => {
         collection
-          .limit(25)
+          .limit(10)
           .get()
           .then(querySnapshot => {
             let list = [];
