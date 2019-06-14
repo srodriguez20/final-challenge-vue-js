@@ -1,13 +1,13 @@
 <template>
   <section class="appointment-detail">
     <div class="date">
-      <icon-button>
+      <Button icon :onClick="increase">
         <i class="material-icons" slot="icon">keyboard_arrow_left</i>
-      </icon-button>
+      </Button>
       <time>September 2018</time>
-      <icon-button>
+      <Button icon :onClick="decrease">
         <i class="material-icons" slot="icon">keyboard_arrow_right</i>
-      </icon-button>
+      </Button>
     </div>
     <div class="status">
       <div>
@@ -77,11 +77,15 @@
 </template>
 
 <script>
-import IconButton from "../components/IconButton.vue";
+import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
 export default {
-  components: { Avatar, Status, IconButton }
+  components: { Avatar, Status, Button },
+  methods: {
+    increase() {},
+    decrease() {}
+  }
 };
 </script>
 

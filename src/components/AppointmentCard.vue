@@ -23,23 +23,27 @@
       <status value="cancelled"/>
     </div>
     <div class="actions">
-      <icon-button link>
+      <Button icon link :onClick="goToEdit">
         <i class="material-icons" slot="icon">launch</i>
-      </icon-button>
-      <icon-button link>
+      </Button>
+      <Button icon link :onClick="deleteAppointment">
         <i class="material-icons" slot="icon">clear</i>
-      </icon-button>
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
-import IconButton from "../components/IconButton.vue";
+import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
 export default {
-  components: { Avatar, Status, IconButton },
-  props: { reward: Object }
+  components: { Avatar, Status, Button },
+  props: { reward: Object },
+  methods: {
+    goToEdit() {},
+    deleteAppointment() {}
+  }
 };
 </script>
 
