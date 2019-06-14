@@ -90,6 +90,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.appointment-detail {
+  background-color: #ffffff;
+  max-width: 500px;
+  border-radius: 25px 0 0 0;
+  height: 100%;
+}
 .date {
   display: flex;
   flex-direction: row;
@@ -97,10 +103,6 @@ export default {
   align-items: center;
   border-bottom: 1px solid #edf2f5;
   padding: 20px 0;
-}
-.appointment-detail {
-  background-color: #ffffff;
-  width: 400px;
 }
 .status {
   display: flex;

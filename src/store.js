@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import firebase from "./firebase";
+import dateFns from "date-fns";
 
 Vue.use(Vuex);
 const db = firebase.firestore();
@@ -19,9 +20,12 @@ export default new Vuex.Store({
   },
   actions: {
     fetchAppointments({ commit }) {
-      let collection = db.collection("appointments");
+      const today = dateFns.format(new Date(), "YYYY-MM-DD HH:mm:ss");
+      const collection = db.collection("appointments");
       return new Promise((resolve, reject) => {
         collection
+          .orderBy("start")
+          .startAt(today)
           .limit(10)
           .get()
           .then(querySnapshot => {

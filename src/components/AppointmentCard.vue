@@ -1,26 +1,24 @@
 <template>
   <div class="appoinment-card" tabindex="0">
-    <div class="hour">
+    <div :class="borderStyle">
       <div>
-        <time>3:30 PM</time>
-        <time>30 minutes</time>
+        <time>{{hour}}</time>
+        <time>{{dateDistance}}</time>
       </div>
     </div>
     <div class="details">
-      <avatar
-        src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1"
-        alt="User Icon"
-      />
+      <avatar :src="appointment.avatar" alt="User Icon"/>
       <div>
-        <h4>Meghan Smith</h4>
+        <h4>{{fullName}}</h4>
         <address>
-          <i class="material-icons">room</i>Intrepid Cafe
+          <i class="material-icons">room</i>
+          {{appointment.location[0].place}}
         </address>
       </div>
     </div>
     <div class="date-info">
-      <time>September 10th</time>
-      <status value="cancelled"/>
+      <time>{{day}}</time>
+      <status :value="appointment.status"/>
     </div>
     <div class="actions">
       <Button icon link :onClick="goToEdit">
@@ -37,9 +35,38 @@
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
+import dateFns from "date-fns";
 export default {
   components: { Avatar, Status, Button },
-  props: { reward: Object },
+  props: {
+    appointment: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    fullName() {
+      return `${this.appointment.first_name} ${this.appointment.last_name}`;
+    },
+    borderStyle() {
+      return "hour " + this.appointment.status;
+    },
+    day() {
+      return dateFns.format(new Date(this.appointment.start), "MMMM Do");
+    },
+    hour() {
+      return dateFns.format(new Date(this.appointment.start), "h:mm A");
+    },
+    dateDistance() {
+      return dateFns.distanceInWordsStrict(
+        new Date(this.appointment.start),
+        new Date(this.appointment.end)
+      );
+    }
+  },
+  mounted() {
+    console.log("TCL: mounted -> this.appointment;", this.appointment);
+  },
   methods: {
     goToEdit() {},
     deleteAppointment() {}
@@ -67,9 +94,16 @@ export default {
   }
 }
 .hour {
-  border-left: 5px solid #4d8ee2;
-  border-left: 5px solid #f8a720;
-  border-left: 5px solid #f36774;
+  &.confirmed {
+    border-left: 5px solid #4d8ee2;
+  }
+  &.pending {
+    border-left: 5px solid #f8a720;
+  }
+  &.cancelled {
+    border-left: 5px solid #f36774;
+  }
+
   flex-direction: column;
   padding-left: 20px;
   div {

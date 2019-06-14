@@ -1,13 +1,18 @@
 <template>
   <div id="app">
     <navigation/>
-    <main class="content">
+    <div class="aplication">
       <toolbar/>
-      <p>{{appointments[0]}}</p>
-      <filter-bar/>
-      <appointment-list/>
-      <appointment-detail></appointment-detail>
-    </main>
+      <main class="content">
+        <section class="list">
+          <filter-bar/>
+          <appointment-list/>
+        </section>
+        <section class="detail">
+          <appointment-detail/>
+        </section>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -31,22 +36,24 @@ export default {
   },
   updated() {
     console.log(this.appointments);
-  },
-  computed: {
-    appointments() {
-      return this.$store.getters.appointments;
-    }
   }
 };
 </script>
 
-<style  lang="scss" scoped>
+<style  lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
 }
-.content {
-  background-color: #fbfbfb;
+.aplication {
   margin-left: 66px;
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  background-color: #fbfbfb;
+}
+.detail {
+  background-color: #000034;
 }
 </style>

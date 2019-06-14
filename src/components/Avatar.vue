@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1" alt>
+    <img :src="src" :alt="alt">
   </div>
 </template>
 
