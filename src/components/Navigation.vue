@@ -1,9 +1,7 @@
 <template>
   <div>
     <nav class="menu">
-      <a href>
-        <span>K</span>
-      </a>
+      <span class="logo" v-if="breakpoint>=lg">K</span>
       <a href>
         <i class="material-icons unfilled">home</i>
       </a>
@@ -29,20 +27,35 @@ export default {};
   background-color: #ffffff;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
+  flex-direction: row;
   position: fixed;
-  width: 66px;
+  justify-content: space-around;
+  bottom: 0;
+  width: 100%;
+  height: 66px;
+  color: #000034;
   a {
-    margin: 20px 0;
-    i {
-      font-size: 28px;
-    }
-    span {
-      font-size: 28px;
-      font-weight: 800;
+    color: #9e9e9e;
+    &.active {
+      color: #000034;
     }
   }
+  i,
+  span {
+    margin: 20px 0;
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  @media (min-width: 960px) {
+    align-items: center;
+    justify-content: initial;
+    flex-direction: column;
+    height: 100vh;
+    width: 66px;
+  }
+}
+
+@media (min-width: 1240px) {
 }
 </style>

@@ -1,21 +1,38 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import firebase from "./firebase";
+import firebase from "../../firebase";
 import dateFns from "date-fns";
 
-Vue.use(Vuex);
 const db = firebase.firestore();
 
-export default new Vuex.Store({
-  state: { appointments: [] },
+const store = {
+  state: {
+    appointments: [],
+    detail: null,
+    filters: {
+      confirmed: false,
+      pending: false,
+      cancelled: false
+    }
+  },
   getters: {
     appointments(state) {
       return state.appointments;
+    },
+    detail(state) {
+      return state.detail;
+    },
+    filters(state) {
+      return state.filters;
     }
   },
   mutations: {
     setAppointments(state, list) {
       state.appointments = list;
+    },
+    setDetail(state, appointment) {
+      state.detail = appointment;
+    },
+    setFilters(state, filters) {
+      state.filters = filters;
     }
   },
   actions: {
@@ -33,9 +50,11 @@ export default new Vuex.Store({
             querySnapshot.forEach(docSnapshot => {
               let appointment = docSnapshot.data();
               appointment.id = docSnapshot.id;
+              appointment.end = appointment.end.replace("UTC", "");
               list.push(appointment);
             });
             commit("setAppointments", list);
+            commit("setDetail", list[0] ? list[0] : null);
             resolve();
           })
           .catch(error => {
@@ -44,4 +63,5 @@ export default new Vuex.Store({
       });
     }
   }
-});
+};
+export default store;

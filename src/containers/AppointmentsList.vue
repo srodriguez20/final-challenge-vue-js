@@ -40,19 +40,39 @@ export default {
       );
     },
     upcomingList() {
-      var now = new Date();
       return this.appointments.filter(
         appointment => !dateFns.isToday(new Date(appointment.start))
       );
     },
+    filters() {
+      return this.$store.getters.filters;
+    },
     appointments() {
-      return this.$store.getters.appointments;
+      if (
+        !this.filters.confirmed &&
+        !this.filters.pending &&
+        !this.filters.cancelled
+      ) {
+        return this.$store.getters.appointments;
+      } else {
+        return this.$store.getters.appointments.filter(
+          appointment =>
+            (this.filters.confirmed
+              ? appointment.status === "confirmed"
+              : false) ||
+            (this.filters.pending ? appointment.status === "pending" : false) ||
+            (this.filters.cancelled
+              ? appointment.status === "cancelled"
+              : false)
+        );
+      }
     },
     nextMeeting() {
       if (this.appointments[0])
         return dateFns.distanceInWordsToNow(
           new Date(this.appointments[0].start)
         );
+      return "";
     },
     loading() {
       return this.appointments == [];
@@ -86,12 +106,5 @@ export default {
   border-top: 2px solid #edf2f5;
   border-width: 2px 0 0 0;
   margin: 35px 0;
-}
-
-@media (min-width: 380px) {
-}
-@media (min-width: 960px) {
-}
-@media (min-width: 1240px) {
 }
 </style>
