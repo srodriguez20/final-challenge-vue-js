@@ -66,6 +66,9 @@ export default {
     decrease() {
       this.now = dateFns.subMonths(this.now, 1);
     }
+    ,fetchCount(){
+      
+    }
   }
 };
 </script>

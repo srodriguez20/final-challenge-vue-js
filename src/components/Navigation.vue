@@ -2,24 +2,28 @@
   <div>
     <nav class="menu">
       <span class="logo" v-if="breakpoint>=lg">K</span>
-      <a href>
-        <i class="material-icons unfilled">home</i>
+      <a :class="home?'active':''">
+        <i class="material-icons-outlined active">home</i>
       </a>
-      <a href>
-        <i class="material-icons">thumb_up_alt</i>
+      <a >
+        <i class="material-icons-outlined">thumb_up_alt</i>
       </a>
-      <a href>
-        <i class="material-icons">notifications</i>
+      <a >
+        <i class="material-icons-outlined">notifications</i>
       </a>
-      <a href>
-        <i class="material-icons">history</i>
+      <a >
+        <i class="material-icons-outlined">history</i>
       </a>
     </nav>
   </div>
 </template>
 
 <script>
-export default {};
+export default {data(){
+  return {
+    home:true,
+  }
+}};
 </script>
 
 <style lang="scss" scoped>
@@ -35,6 +39,7 @@ export default {};
   height: 66px;
   color: #000034;
   a {
+    cursor: pointer;
     color: #9e9e9e;
     &.active {
       color: #000034;
@@ -44,7 +49,6 @@ export default {};
   span {
     margin: 20px 0;
     font-size: 28px;
-    font-weight: 800;
   }
 
   @media (min-width: 960px) {
@@ -55,7 +59,10 @@ export default {};
     width: 66px;
   }
 }
+.logo{
+  font-weight: 900;
 
+}
 @media (min-width: 1240px) {
 }
 </style>

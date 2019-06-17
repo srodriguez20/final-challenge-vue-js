@@ -4,46 +4,37 @@
     <div class="aplication">
       <toolbar/>
       <main class="content">
-        <section class="list">
-          <header>
-            <filter-bar/>
-            <Button class="add-button" @clicked="newEntry" primary>
-              <i class="material-icons">whatshot</i>
-              <span>Add Klastch</span>
-            </Button>
-          </header>
-
-          <appointment-list/>
-        </section>
-        <section v-if="breakpoint>=lg" class="detail">
-          <div class="detail-content">
-            <counter/>
-            <appointment-detail/>
-          </div>
-        </section>
+        <template v-if="breakpoint>=lg">
+          <home/>
+          <section v-if="breakpoint>=lg" class="detail">
+            <div class="detail-content">
+              <counter/>
+              <AppointmentDetail/>
+            </div>
+          </section>
+        </template>
+        <template v-else>
+          <router-view/>
+        </template>
       </main>
     </div>
   </div>
 </template>
 
 <script>
+import Home from "./containers/Home.vue";
 import Counter from "./containers/Counter.vue";
-import Button from "./components/Button.vue";
-import FilterBar from "./components/FilterBar.vue";
 import Toolbar from "./components/Toolbar.vue";
 import Navigation from "./components/Navigation.vue";
-import AppointmentList from "./containers/AppointmentsList.vue";
 import AppointmentDetail from "./containers/AppointmentDetail.vue";
 export default {
   name: "app",
   components: {
     Toolbar,
     Navigation,
-    AppointmentList,
     AppointmentDetail,
-    FilterBar,
-    Button,
-    Counter
+    Counter,
+    Home
   },
 
   data() {
@@ -64,17 +55,12 @@ export default {
           this.$store.commit("setBreakpoint", this.lg);
         }
       }
-      console.log(this.breakpoint);
-    },
-    newEntry() {
-      this.$store.commit("setDetail", null);
     }
   },
 
   created() {
     this.onResize();
     window.addEventListener("resize", this.onResize);
-
     this.$store.dispatch("fetchAppointments");
   },
   beforeDestroy() {
@@ -109,30 +95,16 @@ export default {
   flex-direction: row;
   background-color: #fbfbfb;
 }
-.list {
-  width: 100%;
-  header {
-    padding: 10px 20px;
-    background-color: #000034;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
+
 .detail {
   background-color: #000034;
+  min-width: 275px;
+  max-width: 500px;
   &-content {
     background-color: #ffffff;
-    min-width: 400px;
-    max-width: 500px;
+
     border-radius: 25px 0 0 0;
     height: 100%;
-  }
-}
-.add-button {
-  i {
-    padding-right: 5px;
   }
 }
 </style>

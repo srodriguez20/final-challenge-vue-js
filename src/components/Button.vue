@@ -59,15 +59,7 @@ export default {
   color: #9e9e9e;
   font-size: 0.875em;
   padding: 6px 0;
-  &.primary {
-    color: #ffffff;
-    padding: 10px 30px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    background-color: #54cc9c;
-    border: 5px solid #203957;
-  }
+
   &:active {
     transform: scale(0.9);
   }
@@ -80,5 +72,14 @@ export default {
     cursor: pointer;
     border-color: #ffffff;
   }
+}
+.primary {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  border-radius: 30px;
+  background-color: #54cc9c;
+  border: 5px solid #203957;
 }
 </style>

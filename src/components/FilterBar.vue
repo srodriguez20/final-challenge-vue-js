@@ -1,10 +1,10 @@
 <template>
   <section class="filter-bar">
     <span class="filter-label">Show Only</span>
-    <Button class="mobile-icon" v-if="breakpoint<=md" icon @clicked="mobileOpen=!mobileOpen">
-      <i class="material-icons">{{mobileOpen?"keyboard_arrow_down":"keyboard_arrow_up"}}</i>
+    <Button class="mobile-icon" v-if="breakpoint<=lg" icon @clicked="mobileOpen=!mobileOpen">
+      <i class="material-icons">{{mobileOpen?"keyboard_arrow_up":"keyboard_arrow_down"}}</i>
     </Button>
-    <div class="filter-list" v-if="breakpoint>=lg || mobileOpen">
+    <div class="filter-list" v-if="breakpoint>lg || mobileOpen">
       <Button :active="!confirmed&&!pending&&!cancelled" @clicked="toggleAll">
         <span>All</span>
       </Button>
@@ -68,6 +68,7 @@ export default {
   padding: 10px 0;
   border-radius: 20px;
   position: relative;
+  font-size: 0.875em;
 }
 .filter-label {
   margin-left: 15px;
@@ -75,6 +76,7 @@ export default {
 }
 .mobile-icon {
   margin: 0 3px;
+  color: #9e9e9e;
 }
 .filter-list {
   display: flex;
@@ -99,7 +101,7 @@ export default {
   }
   button {
     margin: 5px 5px;
-    width: 150px;
+    width: 120px;
 
     @media (min-width: 960px) {
       margin: 0 5px;
