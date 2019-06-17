@@ -49,7 +49,7 @@ const store = {
             let list = [];
             querySnapshot.forEach(docSnapshot => {
               let appointment = docSnapshot.data();
-              appointment.id = docSnapshot.id;
+              appointment.uid = docSnapshot.id;
               appointment.end = appointment.end.replace("UTC", "");
               list.push(appointment);
             });

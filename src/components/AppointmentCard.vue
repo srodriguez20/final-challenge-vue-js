@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     setDetail() {
+      this.$router.push(`/appointment/${this.appointment.id}`);
       this.$store.commit("setDetail", this.appointment);
     },
     goToEdit() {
@@ -81,6 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 .appoinment-card {
+  cursor: pointer;
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -89,6 +91,9 @@ export default {
   width: 100%;
   @media (min-width: 1240px) {
     max-width: 850px;
+  }
+  &:active {
+    transform: scale(0.99);
   }
 }
 .card-content {
@@ -103,6 +108,7 @@ export default {
     min-height: 90px;
     flex-wrap: nowrap;
   }
+
   > div {
     display: flex;
     box-sizing: border-box;
