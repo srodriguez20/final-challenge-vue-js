@@ -1,11 +1,9 @@
 <template>
-  <a v-if="link" @click="onClick" :class="classname">
-    <slot name="icon"/>
-    <slot name="text"/>
+  <a v-if="link" @click.stop="clicked" :class="classname">
+    <slot/>
   </a>
-  <button v-else @click="onClick" :class="classname">
-    <slot name="icon"/>
-    <slot name="text"/>
+  <button v-else @click.stop="clicked" :class="classname">
+    <slot/>
   </button>
 </template>
 
@@ -14,16 +12,22 @@ export default {
   props: {
     link: Boolean,
     src: String,
-    onClick: Function,
     icon: Boolean,
-    active: Boolean
+    active: Boolean,
+    primary: Boolean
   },
   computed: {
     classname() {
       let rta = "";
       this.icon ? (rta += "icon ") : (rta += "text ");
       if (this.active) rta += "active ";
+      if (this.primary) rta += "primary ";
       return rta;
+    }
+  },
+  methods: {
+    clicked() {
+      this.$emit("clicked");
     }
   }
 };
@@ -38,12 +42,13 @@ export default {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #ffffff;
+  background: transparent;
   transition: transform 0.3s ease;
   &:active {
     transform: scale(0.7);
   }
   &:hover {
+    cursor: pointer;
     background: #edf2f5;
   }
 }
@@ -52,12 +57,28 @@ export default {
   border-radius: 20px;
   border: 1px solid #9e9e9e;
   color: #9e9e9e;
-  font-size: 14px;
-  width: 80%;
-  padding: 5px 0;
+  font-size: 0.875em;
+  padding: 6px 0;
+  &.primary {
+    color: #ffffff;
+    padding: 10px 30px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    background-color: #54cc9c;
+    border: 5px solid #203957;
+  }
+  &:active {
+    transform: scale(0.9);
+  }
   &.active {
     color: #ffffff;
     border: 1px solid #ffffff;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-color: #ffffff;
   }
 }
 </style>
