@@ -98,7 +98,7 @@ export default {
 
 .detail {
   background-color: #000034;
-  min-width: 275px;
+  min-width: 300px;
   max-width: 500px;
   &-content {
     background-color: #ffffff;

@@ -9,34 +9,77 @@
           alt="User Icon"
         />
         <i class="material-icons">whatshot</i>
-        <avatar v-if="!newEntry" :src="detail.avatar" alt="User Icon"/>
+        <avatar v-if="!editing" :src="detail.avatar" alt="User Icon"/>
       </div>
 
-      <h3 class="name" v-if="!newEntry">{{fullName}}</h3>
-      <input type="text" v-else>
+      <h3 class="name" v-if="!editing">{{fullName}}</h3>
 
-      <span class="phone" v-if="!newEntry">{{phone}}</span>
-      <input type="text" v-else>
+      <template v-else>
+        <div class="input-field spaced">
+          <label for="firstname">First Name</label>
+          <input type="text" name="firstname" placeholder="Jhon">
+        </div>
+        <div class="input-field spaced">
+          <label for="lastname">Last Name</label>
+          <input type="text" name="lastname" placeholder="Doe">
+        </div>
+      </template>
+
+      <span class="phone" v-if="!editing">{{phone}}</span>
+
+      <template v-else>
+        <div class="input-field spaced">
+          <label for="phone">Phone</label>
+          <input type="tel" name="phone" placeholder="(123) 456 - 7890">
+        </div>
+      </template>
     </div>
     <div class="more-details">
       <div class="time">
         <h3>Date&Time</h3>
-        <time v-if="!newEntry">{{hours}}</time>
-        <input type="text" v-else>
+
+        <time v-if="!editing">{{hours}}</time>
+
+        <template v-else>
+          <div class="input-field spaced">
+            <label for="date">Date</label>
+            <input type="date" name="date">
+          </div>
+          <div class="input-field">
+            <label for="start-time">Start Time</label>
+            <input type="time" name="start-time">
+          </div>
+          <div class="input-field">
+            <label for="end-time">End Time</label>
+            <input type="time" name="end-time">
+          </div>
+        </template>
       </div>
       <div class="location">
         <h3>Location</h3>
-        <address v-if="!newEntry">
+
+        <address v-if="!editing">
           <span>{{detail.location[0].place}}</span>
           <br>
           {{detail.location[0].street}}
         </address>
-        <input type="text" v-else>
+
+        <template v-else>
+          <div class="input-field">
+            <label for="location">Location</label>
+            <input type="text" name="location" placeholder="St 123, Av">
+          </div>
+        </template>
       </div>
       <div class="topics">
         <h3>Topics</h3>
-        <span v-if="!newEntry">{{topics}}</span>
-        <input type="text" v-else>
+        <span v-if="!editing">{{topics}}</span>
+        <template v-else>
+          <div class="input-field">
+            <label for="topics">Topics</label>
+            <input type="text" name="topics" placeholder="Movies, Health...">
+          </div>
+        </template>
       </div>
     </div>
     <div class="actions">
@@ -58,14 +101,11 @@ export default {
   components: { Avatar, Status, Button },
   props: {},
   computed: {
-    newEntry() {
+    editing() {
       return this.detail === null;
     },
     borderStyle() {
       return `card-content ${this.detail.status}`;
-    },
-    detail() {
-      return this.$store.getters.detail;
     },
     fullName() {
       console.log(this.detail);
@@ -93,7 +133,7 @@ export default {
       return list;
     },
     statusValue() {
-      return this.newEntry ? "pending" : this.detail.status;
+      return this.editing ? "pending" : this.detail.status;
     }
   }
 };
@@ -156,5 +196,23 @@ export default {
 }
 .actions {
   margin: 0 30px;
+}
+.input-field {
+  &.spaced {
+    margin: 8px 0;
+  }
+  label,
+  input {
+    display: block;
+  }
+  label {
+    font-weight: 600;
+  }
+  input {
+    border-radius: 5px;
+    padding: 5px 5px;
+    border: 1px solid #000034;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  }
 }
 </style>

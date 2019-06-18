@@ -1,17 +1,17 @@
 <template>
   <div>
-    <nav class="menu">
+    <nav class="menu" role="navigation">
       <span class="logo" v-if="breakpoint>=lg">K</span>
       <a :class="home?'active':''">
         <i class="material-icons-outlined active">home</i>
       </a>
-      <a >
+      <a>
         <i class="material-icons-outlined">thumb_up_alt</i>
       </a>
-      <a >
+      <a>
         <i class="material-icons-outlined">notifications</i>
       </a>
-      <a >
+      <a>
         <i class="material-icons-outlined">history</i>
       </a>
     </nav>
@@ -19,11 +19,13 @@
 </template>
 
 <script>
-export default {data(){
-  return {
-    home:true,
+export default {
+  data() {
+    return {
+      home: true
+    };
   }
-}};
+};
 </script>
 
 <style lang="scss" scoped>
@@ -59,9 +61,8 @@ export default {data(){
     width: 66px;
   }
 }
-.logo{
+.logo {
   font-weight: 900;
-
 }
 @media (min-width: 1240px) {
 }
