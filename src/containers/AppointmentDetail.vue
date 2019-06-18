@@ -1,5 +1,5 @@
 <template>
-  <section class="appointment-detail">
+  <section class="appointment-detail" v-if="!editing">
     <div class="details">
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
@@ -9,77 +9,27 @@
           alt="User Icon"
         />
         <i class="material-icons">whatshot</i>
-        <avatar v-if="!editing" :src="detail.avatar" alt="User Icon"/>
+        <avatar :src="detail.avatar" alt="User Icon"/>
       </div>
-
-      <h3 class="name" v-if="!editing">{{fullName}}</h3>
-
-      <template v-else>
-        <div class="input-field spaced">
-          <label for="firstname">First Name</label>
-          <input type="text" name="firstname" placeholder="Jhon">
-        </div>
-        <div class="input-field spaced">
-          <label for="lastname">Last Name</label>
-          <input type="text" name="lastname" placeholder="Doe">
-        </div>
-      </template>
-
-      <span class="phone" v-if="!editing">{{phone}}</span>
-
-      <template v-else>
-        <div class="input-field spaced">
-          <label for="phone">Phone</label>
-          <input type="tel" name="phone" placeholder="(123) 456 - 7890">
-        </div>
-      </template>
+      <h3 class="name">{{fullName}}</h3>
+      <span class="phone">{{phoneFormated}}</span>
     </div>
     <div class="more-details">
       <div class="time">
         <h3>Date&Time</h3>
-
-        <time v-if="!editing">{{hours}}</time>
-
-        <template v-else>
-          <div class="input-field spaced">
-            <label for="date">Date</label>
-            <input type="date" name="date">
-          </div>
-          <div class="input-field">
-            <label for="start-time">Start Time</label>
-            <input type="time" name="start-time">
-          </div>
-          <div class="input-field">
-            <label for="end-time">End Time</label>
-            <input type="time" name="end-time">
-          </div>
-        </template>
+        <time>{{hours}}</time>
       </div>
       <div class="location">
         <h3>Location</h3>
-
-        <address v-if="!editing">
+        <address>
           <span>{{detail.location[0].place}}</span>
           <br>
           {{detail.location[0].street}}
         </address>
-
-        <template v-else>
-          <div class="input-field">
-            <label for="location">Location</label>
-            <input type="text" name="location" placeholder="St 123, Av">
-          </div>
-        </template>
       </div>
       <div class="topics">
         <h3>Topics</h3>
-        <span v-if="!editing">{{topics}}</span>
-        <template v-else>
-          <div class="input-field">
-            <label for="topics">Topics</label>
-            <input type="text" name="topics" placeholder="Movies, Health...">
-          </div>
-        </template>
+        <span>{{topicsFormated}}</span>
       </div>
     </div>
     <div class="actions">
@@ -90,28 +40,143 @@
       </div>
     </div>
   </section>
+  <form class="appointment-detail" v-on:submit.prevent v-else>
+    <div class="details">
+      <h2>Klatsch Detail</h2>
+      <status :value="statusValue"/>
+      <div class="users">
+        <avatar
+          src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1"
+          alt="User Icon"
+        />
+        <i class="material-icons">whatshot</i>
+        <avatar :src="photo" alt="User Icon"/>
+      </div>
+      <div class="input-field spaced">
+        <label for="firstname">First Name</label>
+        <!-- <input
+          type="text"
+          v-model="firstName"
+          id="firstname"
+          name="firstname"
+          placeholder="E.g. Jhon"
+        >-->
+        <autocomplete
+          :items="users"
+          field="first_name"
+          v-model="firstName"
+          @itemSelected="selectUser"
+        />
+      </div>
+      <div class="input-field spaced">
+        <label for="lastname">Last Name</label>
+        <input type="text" v-model="lastName" id="lastname" name="lastname" placeholder="E.g. Doe">
+      </div>
+      <div class="input-field spaced">
+        <label for="phone">Phone</label>
+        <input
+          type="tel"
+          v-model="phone"
+          id="phone"
+          name="phone"
+          placeholder="E.g. (123) 456 - 7890"
+        >
+      </div>
+      <div class="input-field spaced">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          v-model="email"
+          id="email"
+          name="email"
+          placeholder="E.g. example@email.com"
+        >
+      </div>
+    </div>
+    <div class="more-details">
+      <div class="time">
+        <h3>Date&Time</h3>
+        <div class="input-field spaced">
+          <label for="start-time">Start Time</label>
+          <input type="datetime-local" v-model="startTime" id="start-time" name="start-time">
+        </div>
+        <div class="input-field spaced">
+          <label for="end-time">End Time</label>
+          <input type="datetime-local" v-model="endTime" id="end-time" name="end-time">
+        </div>
+      </div>
+      <div class="location">
+        <h3>Location</h3>
+        <div class="input-field">
+          <label for="location">Location</label>
+          <input
+            type="text"
+            v-model="location"
+            id="location"
+            name="location"
+            placeholder="E.g. St 123, Av"
+          >
+        </div>
+      </div>
+      <div class="topics">
+        <h3>Topics</h3>
+        <div class="input-field">
+          <label for="topics">Topics</label>
+          <input type="text" v-model="topics" name="topics" placeholder="E.g. Movies, Health...">
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <Button primary @clicked="()=>isNew==true?addAppointment():editAppointment()">
+        <i class="material-icons" v-if="isNew==true">add</i>
+        {{isNew==true? "Add":"Update"}}
+      </Button>
+    </div>
+  </form>
 </template>
 
 <script>
+import dateFns from "date-fns";
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
-import dateFns from "date-fns";
+import Autocomplete from "../components/Autocomplete.vue";
+import { appointmentMixin } from "../mixins/appointment";
+
 export default {
-  components: { Avatar, Status, Button },
-  props: {},
+  data() {
+    return {
+      edit: false
+    };
+  },
+  components: { Avatar, Status, Button, Autocomplete },
+  mixins: [appointmentMixin],
+  created() {
+    this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
+  },
+  watch: {
+    hash() {
+      this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
+    }
+  },
+
   computed: {
+    hash() {
+      return this.$route.hash;
+    },
+    users() {
+      return this.$store.getters.users;
+    },
     editing() {
-      return this.detail === null;
+      return this.isNew() || this.edit;
     },
     borderStyle() {
       return `card-content ${this.detail.status}`;
     },
     fullName() {
-      console.log(this.detail);
       return `${this.detail.first_name} ${this.detail.last_name}`;
     },
-    phone() {
+    phoneFormated() {
       let cleaned = ("" + this.detail.phone).replace(/\D/g, "");
       let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
       return "+1 (" + match[1] + ") " + match[2] + "-" + match[3];
@@ -124,8 +189,7 @@ export default {
     day() {
       return dateFns.format(new Date(this.detail.start), "MMMM Do");
     },
-
-    topics() {
+    topicsFormated() {
       let list = "";
       this.detail.topics.forEach(obj => {
         list += obj.topic + ", ";
@@ -133,7 +197,21 @@ export default {
       return list;
     },
     statusValue() {
-      return this.editing ? "pending" : this.detail.status;
+      return this.isNew() ? "pending" : this.detail.status;
+    }
+  },
+  methods: {
+    addAppointment() {
+      console.log("add");
+    },
+    editAppointment() {
+      console.log("edit");
+    },
+    selectUser(obj) {
+      this.lastName = obj.last_name;
+      this.phone = obj.phone;
+      this.photo = obj.avatar;
+      this.email = obj.email;
     }
   }
 };

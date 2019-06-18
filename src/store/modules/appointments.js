@@ -61,6 +61,39 @@ const store = {
             reject(error);
           });
       });
+    },
+    fetchAppointmentById({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        db.collection("appointments")
+          .doc(id)
+          .get()
+          .then(doc => {
+            if (doc.exists) {
+              let appointment = doc.data();
+              appointment.uid = id;
+              appointment.end = appointment.end.replace("UTC", "");
+              commit("setDetail", appointment);
+            } else {
+              console.log("No such document!");
+            }
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
+    },
+    // eslint-disable-next-line no-empty-pattern
+    addAppointment({}, obj) {
+      let newObj = obj;
+      newObj.status = "pending";
+
+      return db.collection("appointments").add(newObj);
+    },
+    // eslint-disable-next-line no-empty-pattern
+    updateAppointment({}, id, fields) {
+      return db
+        .collection("appointments")
+        .doc(id)
+        .update(fields);
     }
   }
 };

@@ -62,6 +62,7 @@ export default {
     this.onResize();
     window.addEventListener("resize", this.onResize);
     this.$store.dispatch("fetchAppointments");
+    this.$store.dispatch("fetchUsers");
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);

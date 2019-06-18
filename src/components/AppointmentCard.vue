@@ -20,10 +20,10 @@
         <status :value="appointment.status"/>
       </div>
       <div class="actions" v-if="breakpoint>=lg">
-        <Button icon link @click="goToEdit">
+        <Button icon link @clicked="goToEdit">
           <i class="material-icons">launch</i>
         </Button>
-        <Button icon link @click="deleteAppointment">
+        <Button icon link @clicked="deleteAppointment">
           <i class="material-icons">clear</i>
         </Button>
       </div>
@@ -32,10 +32,11 @@
 </template>
 
 <script>
+import dateFns from "date-fns";
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
-import dateFns from "date-fns";
+
 export default {
   components: { Avatar, Status, Button },
   props: {
@@ -64,17 +65,16 @@ export default {
       );
     }
   },
-  mounted() {
-    console.log("TCL: mounted -> this.appointment;", this.appointment);
-  },
   methods: {
     setDetail() {
-      this.$router.push(`/appointment/${this.appointment.id}`);
+      this.$router.push(`/appointment/${this.appointment.uid}`);
       this.$store.commit("setDetail", this.appointment);
     },
     goToEdit() {
-      this.$store.commit("setDetail", null);
+      this.$router.push(`/appointment/${this.appointment.uid}#edit`);
+      this.$store.commit("setDetail", this.appointment);
     },
+    confirm() {},
     deleteAppointment() {}
   }
 };
@@ -94,6 +94,9 @@ export default {
   }
   &:active {
     transform: scale(0.99);
+  }
+  &:hover {
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
   }
 }
 .card-content {
