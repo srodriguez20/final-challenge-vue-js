@@ -8,9 +8,11 @@ const appointmentMixin = {
       photo: imagePlaceholder,
       phone: "",
       email: "",
+      gender: "",
       startTime: "",
       endTime: "",
-      location: "",
+      location: { place: "", street: "" },
+      newTopic: "",
       topics: []
     };
   },
@@ -37,6 +39,7 @@ const appointmentMixin = {
       this.phone = this.detail.phone;
       this.photo = this.detail.avatar;
       this.email = this.detail.email;
+      this.gender = this.detail.gender;
 
       this.date = this.detail.start;
       this.startTime = dateFns.format(
@@ -48,7 +51,7 @@ const appointmentMixin = {
         "YYYY-MM-DDTHH:mm"
       );
       this.location = this.detail.location[0].street;
-      this.topics = this.detail.topics.map(item => item.topic);
+      this.topics = [...this.detail.topics];
     },
     resetValues() {
       this.firstName = "";
@@ -56,11 +59,13 @@ const appointmentMixin = {
       this.phone = "";
       this.photo = imagePlaceholder;
       this.email = "";
+      this.gender = "";
 
       this.date = "";
       this.startTime = "";
       this.endTime = "";
       this.location = "";
+      this.newTopic = "";
       this.topics = [];
     }
   }

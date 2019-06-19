@@ -4,10 +4,13 @@
       class="input-field"
       type="text"
       v-model="search"
+      autocomplete="off"
+      :placeholder="placeholder"
+      :id="id"
       @input="onChange"
       @keydown.down="onArrowDown"
       @keydown.up="onArrowUp"
-      @keydown.enter="onEnter"
+      @keydown.enter.prevent="onEnter"
     >
     <ul id="autocomplete-list" v-if="open" class="autocomplete-list">
       <li
@@ -26,7 +29,9 @@ export default {
   props: {
     value: String,
     items: Array,
-    field: String
+    field: String,
+    placeholder: String,
+    id: String
   },
   watch: {
     value() {

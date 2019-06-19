@@ -54,17 +54,12 @@
       </div>
       <div class="input-field spaced">
         <label for="firstname">First Name</label>
-        <!-- <input
-          type="text"
-          v-model="firstName"
-          id="firstname"
-          name="firstname"
-          placeholder="E.g. Jhon"
-        >-->
         <autocomplete
           :items="users"
           field="first_name"
           v-model="firstName"
+          id="firstname"
+          placeholder="E.g. Jhon"
           @itemSelected="selectUser"
         />
       </div>
@@ -111,7 +106,7 @@
           <label for="location">Location</label>
           <input
             type="text"
-            v-model="location"
+            v-model="location.street"
             id="location"
             name="location"
             placeholder="E.g. St 123, Av"
@@ -122,7 +117,21 @@
         <h3>Topics</h3>
         <div class="input-field">
           <label for="topics">Topics</label>
-          <input type="text" v-model="topics" name="topics" placeholder="E.g. Movies, Health...">
+          <input
+            type="text"
+            v-model="newTopic"
+            @keydown.enter.prevent="addTopic"
+            name="topics"
+            placeholder="E.g. Movies, Health..."
+          >
+          <div class="topics-list">
+            <chip
+              v-for="(obj,i) in topics"
+              :key="obj.topic"
+              :text="obj.topic"
+              @clicked="removeTopic(i)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -140,6 +149,7 @@ import dateFns from "date-fns";
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
+import Chip from "../components/Chip.vue";
 import Autocomplete from "../components/Autocomplete.vue";
 import { appointmentMixin } from "../mixins/appointment";
 
@@ -149,7 +159,7 @@ export default {
       edit: false
     };
   },
-  components: { Avatar, Status, Button, Autocomplete },
+  components: { Avatar, Status, Button, Autocomplete, Chip },
   mixins: [appointmentMixin],
   created() {
     this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
@@ -202,9 +212,35 @@ export default {
   },
   methods: {
     addAppointment() {
+      let newEntre = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        gender: this.gender,
+        status: "pending",
+        start: this.startTime,
+        location: this.location,
+        avatar: this.photo,
+        phone: this.phone,
+        topics: this.topics
+      };
+      console.log("TCL: addAppointment -> newEntre", newEntre);
       console.log("add");
     },
     editAppointment() {
+      let edited = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        gender: this.gender,
+        status: "pending",
+        start: this.startTime,
+        location: this.location,
+        avatar: this.photo,
+        phone: this.phone,
+        topics: this.topics
+      };
+      console.log("TCL: addAppointment -> newEntre", edited);
       console.log("edit");
     },
     selectUser(obj) {
@@ -212,6 +248,13 @@ export default {
       this.phone = obj.phone;
       this.photo = obj.avatar;
       this.email = obj.email;
+    },
+    addTopic() {
+      this.topics = [...this.topics, { topic: this.newTopic }];
+      this.newTopic = "";
+    },
+    removeTopic(i) {
+      this.topics.splice(i, 1);
     }
   }
 };
@@ -270,6 +313,10 @@ export default {
 .topics {
   span {
     color: #9e9e9e;
+  }
+  .topics-list {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 .actions {

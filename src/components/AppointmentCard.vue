@@ -20,10 +20,13 @@
         <status :value="appointment.status"/>
       </div>
       <div class="actions" v-if="breakpoint>=lg">
-        <Button icon link @clicked="goToEdit">
+        <Button icon link v-if="appointment.status==='pending'" @clicked="goToEdit">
+          <i class="material-icons">done</i>
+        </Button>
+        <Button icon link v-if="appointment.status==='confirmed'" @clicked="goToEdit">
           <i class="material-icons">launch</i>
         </Button>
-        <Button icon link @clicked="deleteAppointment">
+        <Button icon link v-if="appointment.status!=='cancelled'" @clicked="deleteAppointment">
           <i class="material-icons">clear</i>
         </Button>
       </div>
