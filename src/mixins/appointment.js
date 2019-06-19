@@ -9,6 +9,7 @@ const appointmentMixin = {
       phone: "",
       email: "",
       gender: "",
+
       startTime: "",
       endTime: "",
       location: { place: "", street: "" },
@@ -27,12 +28,12 @@ const appointmentMixin = {
   computed: {
     detail() {
       return this.$store.getters.detail;
+    },
+    isNew() {
+      return this.detail === null;
     }
   },
   methods: {
-    isNew() {
-      return this.detail === null;
-    },
     assignValues() {
       this.firstName = this.detail.first_name;
       this.lastName = this.detail.last_name;
@@ -41,7 +42,6 @@ const appointmentMixin = {
       this.email = this.detail.email;
       this.gender = this.detail.gender;
 
-      this.date = this.detail.start;
       this.startTime = dateFns.format(
         new Date(this.detail.start),
         "YYYY-MM-DDTHH:mm"
@@ -50,7 +50,10 @@ const appointmentMixin = {
         new Date(this.detail.end),
         "YYYY-MM-DDTHH:mm"
       );
-      this.location = this.detail.location[0].street;
+      this.location = {
+        place: this.detail.location[0].place,
+        street: this.detail.location[0].street
+      };
       this.topics = [...this.detail.topics];
     },
     resetValues() {
@@ -61,10 +64,9 @@ const appointmentMixin = {
       this.email = "";
       this.gender = "";
 
-      this.date = "";
       this.startTime = "";
       this.endTime = "";
-      this.location = "";
+      this.location = { place: "", street: "" };
       this.newTopic = "";
       this.topics = [];
     }

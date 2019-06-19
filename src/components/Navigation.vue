@@ -2,9 +2,10 @@
   <div>
     <nav class="menu" role="navigation">
       <span class="logo" v-if="breakpoint>=lg">K</span>
-      <a :class="home?'active':''">
+
+      <router-link :class="home?'active':''" to="/">
         <i class="material-icons-outlined active">home</i>
-      </a>
+      </router-link>
       <a>
         <i class="material-icons-outlined">thumb_up_alt</i>
       </a>

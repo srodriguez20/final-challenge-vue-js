@@ -80,8 +80,11 @@ export default {
       }
     },
     onEnter() {
-      this.$emit("itemSelected", this.list[this.arrowCounter]);
-      this.search = this.list[this.arrowCounter][this.field];
+      if (this.list[this.arrowCounter]) {
+        this.$emit("itemSelected", this.list[this.arrowCounter]);
+        this.search = this.list[this.arrowCounter][this.field];
+      }
+
       this.open = false;
       this.arrowCounter = -1;
     },
@@ -113,7 +116,7 @@ export default {
   margin: 0;
   border-radius: 5px;
   border: 1px solid #e9e9e9;
-  height: 120px;
+  min-height: 120px;
   overflow: auto;
   width: 100%;
 }
@@ -142,6 +145,7 @@ export default {
     font-weight: 600;
   }
   input {
+    width: 100%;
     border-radius: 5px;
     padding: 5px 5px;
     border: 1px solid #000034;

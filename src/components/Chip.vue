@@ -1,6 +1,6 @@
 <template>
   <div class="chip">
-    <p>{{text}}</p>
+    <span>{{text}}</span>
     <Button icon @clicked="clicked">
       <i class="material-icons">clear</i>
     </Button>
