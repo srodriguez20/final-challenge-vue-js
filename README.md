@@ -1,9 +1,12 @@
-# final-challenge-vue-js
+See a live demo: https://testing-web-4e53d.web.app/
+# My klatschboard project
+Meetings app created with Vue.js and Firebase
 
 ## Project setup
 ```
 npm install
 ```
+Before build the project is needed setup firebase api keys in "/src/firebase.js" file.
 
 ### Compiles and hot-reloads for development
 ```
@@ -14,16 +17,4 @@ npm run serve
 ```
 npm run build
 ```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Production build folder is "/dist/".
