@@ -2,14 +2,29 @@
   <header class="navbar">
     <h1>My Klatschboard</h1>
     <div class="avatar">
-      <img src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1" alt>
-      <span v-if="breakpoint>=lg">Jhon Doe</span>
+      <img :src="photo" alt>
+      <span v-if="breakpoint>=lg">{{fullName}}</span>
     </div>
   </header>
 </template>
 
 <script>
-export default {};
+import imagePlaceholder from "../assets/no-photo.png";
+export default {
+  computed: {
+    user() {
+      return this.$store.getters.currentUser;
+    },
+    fullName() {
+      if (this.user !== null)
+        return `${this.user.first_name} ${this.user.last_name}`;
+      return "Guess";
+    },
+    photo() {
+      return this.user !== null ? this.user.avatar : imagePlaceholder;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

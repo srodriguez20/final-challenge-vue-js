@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="src" :alt="alt" :class="gray?'gray':''">
+    <img :src="src" :alt="alt" :class="gray?'gray':''" role="photo">
   </div>
 </template>
 

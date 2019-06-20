@@ -1,18 +1,18 @@
 <template>
   <div>
-    <nav class="menu" role="navigation">
+    <nav class="menu" role="navigation" aria-label="select the tab you want to go">
       <span class="logo" v-if="breakpoint>=lg">K</span>
 
-      <router-link :class="home?'active':''" to="/">
+      <router-link :class="home?'active':''" :aria-selected="home?'true':'false'" to="/">
         <i class="material-icons-outlined active">home</i>
       </router-link>
-      <a>
+      <a aria-label="likes">
         <i class="material-icons-outlined">thumb_up_alt</i>
       </a>
-      <a>
+      <a aria-label="notifications">
         <i class="material-icons-outlined">notifications</i>
       </a>
-      <a>
+      <a aria-label="history">
         <i class="material-icons-outlined">history</i>
       </a>
     </nav>
@@ -43,10 +43,18 @@ export default {
   height: 66px;
   color: #000034;
   a {
+    text-align: center;
     cursor: pointer;
     color: #9e9e9e;
+    width: 25%;
     &.active {
       color: #000034;
+    }
+    &:active{
+      transform: scale(0.7);
+    }
+    &:hover{
+      background-color: #f9f9f9;
     }
   }
   i,
@@ -61,6 +69,10 @@ export default {
     flex-direction: column;
     height: 100vh;
     width: 66px;
+    a{
+      text-align: center;
+      width: 100%;
+    }
   }
 }
 .logo {

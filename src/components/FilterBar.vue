@@ -1,26 +1,47 @@
 <template>
-  <section class="filter-bar">
+  <section class="filter-bar" aria-label="filter the meetings">
     <span class="filter-label" v-if="breakpoint>lg || !mobileOpen">Show Only</span>
-    <Button class="mobile-icon" v-if="breakpoint<=lg" icon @clicked="mobileOpen=!mobileOpen">
+    <Button
+      class="mobile-icon"
+      v-if="breakpoint<=lg"
+      icon
+      @clicked="mobileOpen=!mobileOpen"
+      aria-label="open filter list"
+    >
       <i class="material-icons">{{mobileOpen?"keyboard_arrow_up":"keyboard_arrow_down"}}</i>
     </Button>
     <div class="filter-list" v-if="breakpoint>lg || mobileOpen">
-      <Button :active="!confirmed&&!pending&&!cancelled" @clicked="toggleAll">
+      <Button :active="all" @clicked="toggleAll" :aria-selected="all?'true':'false'">
         <span>All</span>
       </Button>
-      <Button class="confirmed" @clicked="confirmed = !confirmed" :active="confirmed">
+      <Button
+        class="confirmed"
+        @clicked="confirmed = !confirmed"
+        :active="confirmed"
+        :aria-selected="confirmed?'true':'false'"
+      >
         <span>
           Confirmed
           <i class="material-icons confirmed">done</i>
         </span>
       </Button>
-      <Button class="pending" @clicked="pending = !pending" :active="pending">
+      <Button
+        class="pending"
+        @clicked="pending = !pending"
+        :active="pending"
+        :aria-selected="pending?'true':'false'"
+      >
         <span>
           Pending
           <i class="material-icons pending">schedule</i>
         </span>
       </Button>
-      <Button class="cancelled" @clicked="cancelled = !cancelled" :active="cancelled">
+      <Button
+        class="cancelled"
+        @clicked="cancelled = !cancelled"
+        :active="cancelled"
+        :aria-selected="cancelled?'true':'false'"
+      >
         <span>
           Cancelled
           <i class="material-icons cancelled">close</i>
@@ -40,6 +61,11 @@ export default {
       pending: false,
       cancelled: false
     };
+  },
+  computed: {
+    all() {
+      return !this.confirmed && !this.pending && !this.cancelled;
+    }
   },
   components: { Button },
   beforeUpdate: function() {
@@ -107,7 +133,7 @@ export default {
     width: 120px;
 
     @media (min-width: 960px) {
-      margin: 0 5px;
+      margin: 0 3px;
     }
   }
   .confirmed {

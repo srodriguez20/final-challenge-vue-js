@@ -14,7 +14,8 @@ const appointmentMixin = {
       endTime: "",
       location: { place: "", street: "" },
       newTopic: "",
-      topics: []
+      topics: [],
+      error: ""
     };
   },
   created() {
@@ -69,6 +70,7 @@ const appointmentMixin = {
       this.location = { place: "", street: "" };
       this.newTopic = "";
       this.topics = [];
+      this.error = "";
     }
   }
 };

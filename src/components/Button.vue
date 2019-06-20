@@ -2,10 +2,10 @@
   <a v-if="link" @click.stop="clicked" :class="classname">
     <slot/>
   </a>
-  <button v-else-if="submit" @click.stop="clicked" type="submit" :class="classname">
+  <button v-else-if="submit" @click.stop="clicked" role="button" type="submit" :class="classname">
     <slot/>
   </button>
-  <button v-else @click.stop.prevent="clicked" type="button" :class="classname">
+  <button v-else @click.stop.prevent="clicked" role="button" type="button" :class="classname">
     <slot/>
   </button>
 </template>

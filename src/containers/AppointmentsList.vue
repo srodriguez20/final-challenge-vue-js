@@ -5,14 +5,14 @@
       <span class="next-meeting">Meeting in {{nextMeeting}}</span>
     </div>
     <div class="content-list">
-      <div class="today">
+      <section class="today" role="list">
         <template v-if="todayList.length>0">
           <appointment-card v-for="(obj,index) in todayList" :appointment="obj" v-bind:key="index"/>
         </template>
         <span v-else class="empty">No more meetings today</span>
-      </div>
+      </section>
       <hr class="divider">
-      <div class="upcoming">
+      <section class="upcoming" role="list">
         <h2>Upcoming</h2>
         <template v-if="upcomingList.length>0">
           <appointment-card
@@ -22,7 +22,7 @@
           />
         </template>
         <span v-else class="empty">No more meetings today</span>
-      </div>
+      </section>
       <div>
         <Button class="load-more" @clicked="fetchMore">
           <i class="material-icons">arrow_downward</i>
@@ -109,10 +109,14 @@ export default {
   background-color: #000034;
   padding: 20px 20px 65px 20px;
   color: #ffffff;
-  border-radius: 0 0 25px 25px;
+  border-radius: 0 0 30px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (min-width: 1240px) {
+    border-radius: 0 0 50px 50px;
+    padding: 5% 5% 65px 20px;
+  }
 }
 .next-meeting {
   font-style: italic;
@@ -120,6 +124,9 @@ export default {
 .content-list {
   padding: 0 20px;
   margin-top: -65px;
+  @media (min-width: 1240px) {
+    padding: 0 5%;
+  }
 }
 .divider {
   border-top: 2px solid #edf2f5;
