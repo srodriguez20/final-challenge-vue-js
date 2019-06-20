@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     newEntry() {
+      this.$router.push(`/appointment/add`);
       this.$store.commit("setDetail", null);
     }
   }

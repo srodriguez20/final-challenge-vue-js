@@ -1,5 +1,8 @@
 <template>
-  <section class="appointment-detail">
+  <section class="appointment-detail" v-if="!editing">
+    <Button class="back" icon v-if="breakpoint<=md" @clicked="goHome" link>
+      <i class="material-icons">keyboard_backspace</i>
+    </Button>
     <div class="details">
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
@@ -9,34 +12,27 @@
           alt="User Icon"
         />
         <i class="material-icons">whatshot</i>
-        <avatar v-if="!newEntry" :src="detail.avatar" alt="User Icon"/>
+        <avatar :src="detail.avatar" alt="User Icon"/>
       </div>
-
-      <h3 class="name" v-if="!newEntry">{{fullName}}</h3>
-      <input type="text" v-else>
-
-      <span class="phone" v-if="!newEntry">{{phone}}</span>
-      <input type="text" v-else>
+      <h3 class="name">{{fullName}}</h3>
+      <span class="phone">{{phoneFormated}}</span>
     </div>
     <div class="more-details">
       <div class="time">
         <h3>Date&Time</h3>
-        <time v-if="!newEntry">{{hours}}</time>
-        <input type="text" v-else>
+        <time>{{hours}}</time>
       </div>
       <div class="location">
         <h3>Location</h3>
-        <address v-if="!newEntry">
+        <address>
           <span>{{detail.location[0].place}}</span>
           <br>
           {{detail.location[0].street}}
         </address>
-        <input type="text" v-else>
       </div>
       <div class="topics">
         <h3>Topics</h3>
-        <span v-if="!newEntry">{{topics}}</span>
-        <input type="text" v-else>
+        <span>{{topicsFormated}}</span>
       </div>
     </div>
     <div class="actions">
@@ -47,31 +43,45 @@
       </div>
     </div>
   </section>
+  <appointment-form v-else/>
 </template>
 
 <script>
+import dateFns from "date-fns";
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
-import dateFns from "date-fns";
+import AppointmentForm from "../containers/AppointmentForm.vue";
+import { appointmentMixin } from "../mixins/appointment";
+
 export default {
-  components: { Avatar, Status, Button },
-  props: {},
+  data() {
+    return {
+      edit: false
+    };
+  },
+  components: { Avatar, Status, Button, AppointmentForm },
+  mixins: [appointmentMixin],
+  created() {
+    this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
+  },
+  watch: {
+    hash() {
+      this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
+    }
+  },
+
   computed: {
-    newEntry() {
-      return this.detail === null;
+    hash() {
+      return this.$route.hash;
     },
-    borderStyle() {
-      return `card-content ${this.detail.status}`;
-    },
-    detail() {
-      return this.$store.getters.detail;
+    editing() {
+      return this.isNew || this.edit;
     },
     fullName() {
-      console.log(this.detail);
       return `${this.detail.first_name} ${this.detail.last_name}`;
     },
-    phone() {
+    phoneFormated() {
       let cleaned = ("" + this.detail.phone).replace(/\D/g, "");
       let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
       return "+1 (" + match[1] + ") " + match[2] + "-" + match[3];
@@ -81,11 +91,7 @@ export default {
       let end = dateFns.format(new Date(this.detail.end), "h:mm A");
       return `${initial} - ${end}`;
     },
-    day() {
-      return dateFns.format(new Date(this.detail.start), "MMMM Do");
-    },
-
-    topics() {
+    topicsFormated() {
       let list = "";
       this.detail.topics.forEach(obj => {
         list += obj.topic + ", ";
@@ -93,7 +99,12 @@ export default {
       return list;
     },
     statusValue() {
-      return this.newEntry ? "pending" : this.detail.status;
+      return this.isNew ? "pending" : this.detail.status;
+    }
+  },
+  methods: {
+    goHome() {
+      this.$router.push("/");
     }
   }
 };
@@ -101,8 +112,21 @@ export default {
 
 <style lang="scss" scoped>
 .appointment-detail {
+  background-color: #ffffff;
+  width: 100%;
+  position: relative;
+  @media (min-width: 960px) {
+    width: initial;
+  }
+}
+.back {
+  position: absolute;
+  z-index: 2;
+  top: 15px;
+  left: 15px;
 }
 .details {
+  padding: 0 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,8 +177,24 @@ export default {
   span {
     color: #9e9e9e;
   }
+  .topics-list {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 .actions {
   margin: 0 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  h3 {
+    margin: 0;
+  }
+  a {
+    text-decoration: underline;
+    display: block;
+    margin-bottom: 5px;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <a v-if="link" @click.stop="clicked" :class="classname">
     <slot/>
   </a>
-  <button v-else @click.stop="clicked" :class="classname">
+  <button v-else @click.stop.prevent="clicked" :type="submit?'submit':'button'" :class="classname">
     <slot/>
   </button>
 </template>
@@ -14,7 +14,8 @@ export default {
     src: String,
     icon: Boolean,
     active: Boolean,
-    primary: Boolean
+    primary: Boolean,
+    submit: Boolean
   },
   computed: {
     classname() {

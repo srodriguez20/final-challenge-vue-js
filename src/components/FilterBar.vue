@@ -1,6 +1,6 @@
 <template>
   <section class="filter-bar">
-    <span class="filter-label">Show Only</span>
+    <span class="filter-label" v-if="breakpoint>lg || !mobileOpen">Show Only</span>
     <Button class="mobile-icon" v-if="breakpoint<=lg" icon @clicked="mobileOpen=!mobileOpen">
       <i class="material-icons">{{mobileOpen?"keyboard_arrow_up":"keyboard_arrow_down"}}</i>
     </Button>

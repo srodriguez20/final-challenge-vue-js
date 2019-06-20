@@ -62,6 +62,7 @@ export default {
     this.onResize();
     window.addEventListener("resize", this.onResize);
     this.$store.dispatch("fetchAppointments");
+    this.$store.dispatch("fetchUsers");
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
@@ -98,7 +99,7 @@ export default {
 
 .detail {
   background-color: #000034;
-  min-width: 275px;
+  min-width: 300px;
   max-width: 500px;
   &-content {
     background-color: #ffffff;
