@@ -86,7 +86,7 @@ export default {
   }
 }
 .aplication {
-  padding: 0 0 66px 0;
+  padding: 0 0 80px 0;
   @media (min-width: 960px) {
     padding: 0 0 0 66px;
   }
@@ -107,7 +107,7 @@ export default {
   &-content {
     background-color: #ffffff;
 
-    border-radius: 25px 0 0 0;
+    border-radius: 40px 0 0 0;
     height: 100%;
   }
 }

@@ -41,8 +41,8 @@
     <div class="actions">
       <h3>Status</h3>
       <div>
-        <a v-if="statusValue==='pending' ">Confirm Klatsch</a>
-        <a v-if="statusValue==='confirmed' || statusValue==='pending' ">Cancel Klatsch</a>
+        <a v-if="statusValue==='pending' " @click="confirm" >Confirm Klatsch</a>
+        <a v-if="statusValue==='confirmed' || statusValue==='pending' " @click="cancelAppointment">Cancel Klatsch</a>
       </div>
     </div>
   </section>
@@ -113,6 +113,30 @@ export default {
     },
     goEdit() {
       this.$router.push(`/appointment/${this.detail.uid}#edit`);
+    },
+    confirm() {
+      const uid = this.detail.uid;
+      this.$store
+        .dispatch("updateAppointment", {
+          id: uid,
+          fields: { status: "confirmed" }
+        })
+        .then(() => {
+          this.$store.dispatch("fetchAppointments");
+          this.$store.dispatch("fetchAppointmentById", uid);
+        });
+    },
+    cancelAppointment() {
+      const uid = this.detail.uid;
+      this.$store
+        .dispatch("updateAppointment", {
+          id: uid,
+          fields: { status: "cancelled" }
+        })
+        .then(() => {
+          this.$store.dispatch("fetchAppointments");
+          this.$store.dispatch("fetchAppointmentById", uid);
+        });
     }
   }
 };
@@ -206,6 +230,7 @@ export default {
     margin: 0;
   }
   a {
+    cursor: pointer;
     text-decoration: underline;
     display: block;
     margin-bottom: 5px;
