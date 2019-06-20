@@ -34,7 +34,7 @@ export default {
 .list {
   width: 100%;
   @media (min-width: 1240px) {
-    width: 70%;
+    width: 75%;
   }
   header {
     padding: 10px 20px;
