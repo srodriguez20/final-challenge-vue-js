@@ -142,7 +142,7 @@ export default {
   overflow: hidden;
   width: 100%;
   @media (min-width: 1240px) {
-    max-width: 850px;
+    width: 100%;
   }
   &:active {
     transform: scale(0.99);

@@ -74,12 +74,12 @@ export default {
 #app {
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   color: #2c3e50;
-  font-size: 12px;
+  font-size: 13px;
   @media (min-width: 380px) {
-    font-size: 13px;
+    font-size: 14px;
   }
   @media (min-width: 960px) {
-    font-size: 14px;
+    font-size: 15px;
   }
   @media (min-width: 1240px) {
     font-size: 16px;
@@ -101,6 +101,9 @@ export default {
   background-color: #000034;
   min-width: 300px;
   max-width: 500px;
+  @media (min-width: 1240px) {
+    width: 30%;
+  }
   &-content {
     background-color: #ffffff;
 

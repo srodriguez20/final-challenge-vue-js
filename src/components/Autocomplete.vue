@@ -5,6 +5,7 @@
       type="text"
       v-model="search"
       autocomplete="off"
+      required
       :placeholder="placeholder"
       :id="id"
       @input="onChange"
@@ -145,6 +146,7 @@ export default {
     font-weight: 600;
   }
   input {
+    box-sizing: border-box;
     width: 100%;
     border-radius: 5px;
     padding: 5px 5px;

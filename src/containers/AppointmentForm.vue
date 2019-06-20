@@ -1,5 +1,5 @@
 <template>
-  <form class="appointment-detail" v-on:submit.prevent>
+  <form class="appointment-detail" v-on:submit.prevent="send">
     <div class="details">
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
@@ -12,7 +12,7 @@
         <avatar :src="photo" alt="User Icon"/>
       </div>
       <div class="input-field spaced">
-        <label for="firstname">First Name</label>
+        <label for="firstname">First Name*</label>
         <autocomplete
           :items="users"
           field="first_name"
@@ -23,8 +23,15 @@
         />
       </div>
       <div class="input-field spaced">
-        <label for="lastname">Last Name</label>
-        <input type="text" v-model="lastName" id="lastname" name="lastname" placeholder="E.g. Doe">
+        <label for="lastname">Last Name*</label>
+        <input
+          type="text"
+          v-model="lastName"
+          id="lastname"
+          name="lastname"
+          placeholder="E.g. Doe"
+          required
+        >
       </div>
       <div class="input-field spaced">
         <label for="phone">Phone</label>
@@ -37,13 +44,14 @@
         >
       </div>
       <div class="input-field spaced">
-        <label for="email">Email</label>
+        <label for="email">Email*</label>
         <input
-          type="text"
+          type="email"
           v-model="email"
           id="email"
           name="email"
           placeholder="E.g. example@email.com"
+          required
         >
       </div>
     </div>
@@ -51,24 +59,31 @@
       <div class="time">
         <h3>Date&Time</h3>
         <div class="input-field spaced">
-          <label for="start-time">Start Time</label>
-          <input type="datetime-local" v-model="startTime" id="start-time" name="start-time">
+          <label for="start-time">Start Time*</label>
+          <input
+            type="datetime-local"
+            v-model="startTime"
+            id="start-time"
+            name="start-time"
+            required
+          >
         </div>
         <div class="input-field spaced">
-          <label for="end-time">End Time</label>
-          <input type="datetime-local" v-model="endTime" id="end-time" name="end-time">
+          <label for="end-time">End Time*</label>
+          <input type="datetime-local" v-model="endTime" id="end-time" name="end-time" required>
         </div>
       </div>
       <div class="location">
         <h3>Location</h3>
         <div class="input-field">
-          <label for="location">Location</label>
+          <label for="location">Location*</label>
           <input
             type="text"
             v-model="location.street"
             id="location"
             name="location"
             placeholder="E.g. St 123, Av"
+            required
           >
         </div>
       </div>
@@ -96,7 +111,7 @@
     </div>
     <div class="actions">
       <Button class="action cancel" @clicked="cancel">Cancel</Button>
-      <Button class="action confirm" @clicked="send" submit>{{isNew==true? "Add":"Update"}}</Button>
+      <Button class="action confirm" submit>{{isNew==true? "Add":"Update"}}</Button>
     </div>
   </form>
 </template>
@@ -150,9 +165,12 @@ export default {
         phone: this.phone,
         topics: this.topics
       };
-      this.$store.dispatch("addAppointment", newEntre);
-      console.log("TCL: addAppointment -> newEntre", newEntre);
-      console.log("add");
+      this.$store.dispatch("addAppointment", newEntre).then(docRef => {
+        const uid = docRef.id;
+        this.$store.dispatch("fetchAppointments");
+        this.$store.dispatch("fetchAppointmentById", uid);
+        this.$router.push(`/appointment/${uid}`);
+      });
     },
 
     editAppointment() {
@@ -169,8 +187,7 @@ export default {
         topics: this.topics
       };
       const { uid } = this.detail;
-      console.log("TCL: addAppointment -> newEntre", edited);
-      console.log("edit");
+
       this.$store
         .dispatch("updateAppointment", { id: uid, fields: edited })
         .then(() => {
@@ -180,6 +197,7 @@ export default {
         });
     },
     selectUser(obj) {
+      this.firstName = obj.first_name;
       this.lastName = obj.last_name;
       this.phone = obj.phone;
       this.photo = obj.avatar;
@@ -198,7 +216,7 @@ export default {
 
 <style lang="scss" scoped>
 .details {
-  padding: 0 30px;
+  padding: 0 6%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,10 +238,10 @@ export default {
   }
 }
 .more-details {
-  margin: 20px 15px;
+  margin: 20px 3%;
   border-top: 1px solid #edf2f5;
   border-bottom: 1px solid #edf2f5;
-  padding: 0 15px;
+  padding: 0 3%;
   h3 {
     margin: 0 0 10px 0;
   }
@@ -287,6 +305,7 @@ export default {
     font-weight: 600;
   }
   input {
+    box-sizing: border-box;
     width: 100%;
     border-radius: 5px;
     padding: 5px 5px;

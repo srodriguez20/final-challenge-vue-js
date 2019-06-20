@@ -1,14 +1,14 @@
 <template>
   <section class="appointment-counter">
     <div class="date">
-      <Button icon @clicked="increase">
+      <Button icon @clicked="decrease">
         <i class="material-icons">keyboard_arrow_left</i>
       </Button>
       <time>
         <span>{{getMonth}}</span>
         {{getYear}}
       </time>
-      <Button icon @clicked="decrease">
+      <Button icon @clicked="increase">
         <i class="material-icons">keyboard_arrow_right</i>
       </Button>
     </div>
@@ -18,7 +18,7 @@
           <i class="material-icons">done</i>
         </div>
         <span>
-          <strong>5</strong> Confirmed
+          <strong>{{confirmed}}</strong> Confirmed
         </span>
       </div>
       <div>
@@ -26,7 +26,7 @@
           <i class="material-icons">schedule</i>
         </div>
         <span>
-          <strong>5</strong> Pending
+          <strong>{{pending}}</strong> Pending
         </span>
       </div>
       <div>
@@ -34,7 +34,7 @@
           <i class="material-icons">close</i>
         </div>
         <span>
-          <strong>5</strong> Cancelled
+          <strong>{{cancelled}}</strong> Cancelled
         </span>
       </div>
     </div>
@@ -47,10 +47,18 @@ import dateFns from "date-fns";
 export default {
   data() {
     return {
-      now: new Date()
+      now: new Date(),
+      pending: 0,
+      confirmed: 0,
+      cancelled: 0
     };
   },
   components: { Button },
+  watch: {
+    now() {
+      this.fetchCount();
+    }
+  },
   computed: {
     getMonth() {
       return dateFns.format(this.now, "MMMM");
@@ -65,9 +73,18 @@ export default {
     },
     decrease() {
       this.now = dateFns.subMonths(this.now, 1);
-    }
-    ,fetchCount(){
-      
+    },
+    fetchCount() {
+      const start = dateFns.format(this.now, "YYYY-MM");
+      const end = dateFns.format(dateFns.addMonths(this.now, 1), "YYYY-MM");
+      this.$store
+        .dispatch("countAppointments", { start, end })
+        .then(counter => {
+          console.log("TCL: fetchCount -> counter", counter);
+          this.confirmed = counter.confirmed;
+          this.pending = counter.pending;
+          this.cancelled = counter.cancelled;
+        });
     }
   }
 };

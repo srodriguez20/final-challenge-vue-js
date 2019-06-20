@@ -33,6 +33,9 @@ export default {
 <style lang="scss" scoped>
 .list {
   width: 100%;
+  @media (min-width: 1240px) {
+    width: 70%;
+  }
   header {
     padding: 10px 20px;
     background-color: #000034;

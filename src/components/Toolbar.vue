@@ -3,7 +3,7 @@
     <h1>My Klatschboard</h1>
     <div class="avatar">
       <img src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1" alt>
-      <span>Jhon Doe</span>
+      <span v-if="breakpoint>=lg">Jhon Doe</span>
     </div>
   </header>
 </template>

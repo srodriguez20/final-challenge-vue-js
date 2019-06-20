@@ -3,6 +3,9 @@
     <Button class="back" icon v-if="breakpoint<=md" @clicked="goHome" link>
       <i class="material-icons">keyboard_backspace</i>
     </Button>
+    <Button class="edit" icon @clicked="goEdit" link>
+      <i class="material-icons">edit</i>
+    </Button>
     <div class="details">
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
@@ -64,6 +67,8 @@ export default {
   mixins: [appointmentMixin],
   created() {
     this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
+    const uid = this.$route.params.id;
+    if (uid && uid !== "add") this.$store.dispatch("fetchAppointmentById", uid);
   },
   watch: {
     hash() {
@@ -105,6 +110,9 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
+    },
+    goEdit() {
+      this.$router.push(`/appointment/${this.detail.uid}#edit`);
     }
   }
 };
@@ -124,6 +132,12 @@ export default {
   z-index: 2;
   top: 15px;
   left: 15px;
+}
+.edit {
+  position: absolute;
+  z-index: 2;
+  top: 15px;
+  right: 15px;
 }
 .details {
   padding: 0 30px;
