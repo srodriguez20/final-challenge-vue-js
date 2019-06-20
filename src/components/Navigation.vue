@@ -31,8 +31,9 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
+  z-index: 5;
   background-color: #ffffff;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: row;
   position: fixed;

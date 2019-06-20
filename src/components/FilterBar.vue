@@ -79,6 +79,7 @@ export default {
   color: #9e9e9e;
 }
 .filter-list {
+  z-index: 2;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -87,6 +88,7 @@ export default {
   background-color: #111242;
   padding: 5px;
   border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   @media (min-width: 960px) {
     border-radius: 0;
     position: initial;
@@ -95,6 +97,7 @@ export default {
     padding: 0;
     background-color: transparent;
     justify-content: space-evenly;
+    box-shadow: initial;
   }
   i {
     font-size: 1em;
