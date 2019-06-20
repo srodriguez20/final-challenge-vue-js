@@ -4,12 +4,9 @@
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
       <div class="users">
-        <avatar
-          src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1"
-          alt="User Icon"
-        />
+        <avatar :src="currentUserPhoto" alt="User avatar"/>
         <i class="material-icons">whatshot</i>
-        <avatar :src="photo" alt="User Icon"/>
+        <avatar :src="photo" alt="User avatar"/>
       </div>
       <div class="input-field spaced">
         <label for="firstname">First Name*</label>
@@ -110,6 +107,7 @@
       </div>
     </div>
     <div class="actions">
+      <p class="error" v-if="error">{{error}}</p>
       <Button class="action cancel" @clicked="cancel">Cancel</Button>
       <Button class="action confirm" submit>{{isNew==true? "Add":"Update"}}</Button>
     </div>
@@ -122,6 +120,8 @@ import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
 import Chip from "../components/Chip.vue";
+
+import imagePlaceholder from "../assets/no-photo.png";
 import Autocomplete from "../components/Autocomplete.vue";
 import { appointmentMixin } from "../mixins/appointment";
 
@@ -133,17 +133,29 @@ export default {
   mixins: [appointmentMixin],
 
   computed: {
+    currentUser() {
+      return this.$store.getters.currentUser;
+    },
     users() {
       return this.$store.getters.users;
     },
     statusValue() {
       return this.isNew ? "pending" : this.detail.status;
+    },
+    currentUserPhoto() {
+      return this.currentUser !== null
+        ? this.currentUser.avatar
+        : imagePlaceholder;
     }
   },
   methods: {
     send() {
-      if (this.isNew) this.addAppointment();
-      else this.editAppointment();
+      if (this.startTime < this.endTime) {
+        if (this.isNew) this.addAppointment();
+        else this.editAppointment();
+      } else {
+        this.error = "End date should be after start date";
+      }
     },
     cancel() {
       if (this.isNew) {
@@ -273,8 +285,15 @@ export default {
     flex-wrap: wrap;
   }
 }
+.error {
+  color: #f36774;
+  width: 100%;
+}
 .actions {
   margin: 0 30px;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   .action {
     padding: 5px 10px;
     margin: 0 3px;

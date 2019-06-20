@@ -10,12 +10,9 @@
       <h2>Klatsch Detail</h2>
       <status :value="statusValue"/>
       <div class="users">
-        <avatar
-          src="https://robohash.org/debitispossimusmaiores.jpg?size=50x50&set=set1"
-          alt="User Icon"
-        />
+        <avatar :src="currentUserPhoto" alt="User avatar"/>
         <i class="material-icons">whatshot</i>
-        <avatar :src="detail.avatar" alt="User Icon"/>
+        <avatar :src="detail.avatar" alt="User avatar"/>
       </div>
       <h3 class="name">{{fullName}}</h3>
       <span class="phone">{{phoneFormated}}</span>
@@ -41,8 +38,12 @@
     <div class="actions">
       <h3>Status</h3>
       <div>
-        <a v-if="statusValue==='pending' " @click="confirm" >Confirm Klatsch</a>
-        <a v-if="statusValue==='confirmed' || statusValue==='pending' " @click="cancelAppointment">Cancel Klatsch</a>
+        <a class="confirm" v-if="statusValue==='pending' " @click="confirm">Confirm Klatsch</a>
+        <a
+          class="cancel"
+          v-if="statusValue==='confirmed' || statusValue==='pending' "
+          @click="cancelAppointment"
+        >Cancel Klatsch</a>
       </div>
     </div>
   </section>
@@ -54,6 +55,8 @@ import dateFns from "date-fns";
 import Button from "../components/Button.vue";
 import Avatar from "../components/Avatar.vue";
 import Status from "../components/Status.vue";
+
+import imagePlaceholder from "../assets/no-photo.png";
 import AppointmentForm from "../containers/AppointmentForm.vue";
 import { appointmentMixin } from "../mixins/appointment";
 
@@ -105,6 +108,14 @@ export default {
     },
     statusValue() {
       return this.isNew ? "pending" : this.detail.status;
+    },
+    currentUser() {
+      return this.$store.getters.currentUser;
+    },
+    currentUserPhoto() {
+      return this.currentUser !== null
+        ? this.currentUser.avatar
+        : imagePlaceholder;
     }
   },
   methods: {
@@ -234,6 +245,12 @@ export default {
     text-decoration: underline;
     display: block;
     margin-bottom: 5px;
+    &.cancel:hover {
+      color: #f36774;
+    }
+    &.confirm:hover {
+      color: #4d8ee2;
+    }
   }
 }
 </style>

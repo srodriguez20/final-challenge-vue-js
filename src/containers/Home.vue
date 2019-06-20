@@ -2,7 +2,7 @@
   <section class="list">
     <header>
       <filter-bar/>
-      <Button class="add-button" @clicked="newEntry" primary>
+      <Button class="add-button" @clicked="newEntry" primary aria-label="Create a new meeting">
         <i class="material-icons">whatshot</i>
         <span>Add Klastch</span>
       </Button>

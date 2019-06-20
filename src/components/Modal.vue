@@ -1,5 +1,5 @@
 <template>
-  <div class="background" v-if="open" @click.stop="cancel">
+  <div class="background" role="presentation" v-if="open" @click.stop="cancel">
     <div class="modal" @click.stop>
       <div :class="success?'icon success':'icon'">
         <i class="material-icons">{{icon}}</i>

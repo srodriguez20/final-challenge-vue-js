@@ -1,7 +1,7 @@
 <template>
-  <div class="chip">
+  <div class="chip" aria-label="topic chip">
     <span>{{text}}</span>
-    <Button icon @clicked="clicked">
+    <Button icon @clicked="clicked" aria-label="remove">
       <i class="material-icons">clear</i>
     </Button>
   </div>

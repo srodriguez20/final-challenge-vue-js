@@ -1,14 +1,14 @@
 <template>
-  <section class="appointment-counter">
+  <section class="appointment-counter" aria-label="meetings counter by month">
     <div class="date">
-      <Button icon @clicked="decrease">
+      <Button icon @clicked="decrease" aria-label="prev month">
         <i class="material-icons">keyboard_arrow_left</i>
       </Button>
       <time>
         <span>{{getMonth}}</span>
         {{getYear}}
       </time>
-      <Button icon @clicked="increase">
+      <Button icon @clicked="increase" aria-label="next month">
         <i class="material-icons">keyboard_arrow_right</i>
       </Button>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article role="listitem" aria-label="meeting summary card">
     <div class="appoinment-card" tabindex="0" @click="setDetail">
       <div :class="borderStyle">
         <div class="hour">
@@ -9,7 +9,7 @@
         <div class="details">
           <avatar
             :src="appointment.avatar"
-            alt="User Icon"
+            alt="User avatar"
             :gray="appointment.status==='cancelled'"
           />
           <div class="detail-text">
@@ -25,13 +25,32 @@
           <status :value="appointment.status"/>
         </div>
         <div class="actions" v-if="breakpoint>=lg">
-          <Button icon v-if="appointment.status==='pending'" @clicked="confirmModal=true">
+          <Button
+            icon
+            v-if="appointment.status==='pending'"
+            @clicked="confirmModal=true"
+            aria-label="confirm the meeting"
+            title="Confirm"
+          >
             <i class="material-icons">done</i>
           </Button>
-          <Button icon link v-if="appointment.status==='confirmed'" @clicked="goToEdit">
+          <Button
+            icon
+            link
+            v-if="appointment.status==='confirmed'"
+            @clicked="goToEdit"
+            aria-label="go to edit"
+            title="Edit"
+          >
             <i class="material-icons">launch</i>
           </Button>
-          <Button icon v-if="appointment.status!=='cancelled'" @clicked="deleteModal=true">
+          <Button
+            icon
+            v-if="appointment.status!=='cancelled'"
+            @clicked="deleteModal=true"
+            aria-label="cancel the meeting"
+            title="Cancel"
+          >
             <i class="material-icons">clear</i>
           </Button>
         </div>
@@ -52,7 +71,7 @@
       @cancelled="deleteModal=false"
       :open="deleteModal"
     />
-  </div>
+  </article>
 </template>
 
 <script>
@@ -115,6 +134,7 @@ export default {
         .then(() => {
           this.$store.dispatch("fetchAppointments");
           this.$store.dispatch("fetchAppointmentById", uid);
+          this.confirmModal = false;
         });
     },
     deleteAppointment() {
@@ -127,6 +147,7 @@ export default {
         .then(() => {
           this.$store.dispatch("fetchAppointments");
           this.$store.dispatch("fetchAppointmentById", uid);
+          this.deleteModal = false;
         });
     }
   }
