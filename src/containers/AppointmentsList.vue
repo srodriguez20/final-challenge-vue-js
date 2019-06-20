@@ -96,7 +96,9 @@ export default {
   },
 
   methods: {
-    fetchMore() {}
+    fetchMore() {
+      this.$store.dispatch("fetchMoreAppointments");
+    }
   }
 };
 </script>
