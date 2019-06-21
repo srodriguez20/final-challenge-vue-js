@@ -80,7 +80,6 @@ export default {
       this.$store
         .dispatch("countAppointments", { start, end })
         .then(counter => {
-          console.log("TCL: fetchCount -> counter", counter);
           this.confirmed = counter.confirmed;
           this.pending = counter.pending;
           this.cancelled = counter.cancelled;

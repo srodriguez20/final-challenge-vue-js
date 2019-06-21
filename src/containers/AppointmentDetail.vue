@@ -72,6 +72,10 @@ export default {
     this.hash === "#edit" ? (this.edit = true) : (this.edit = false);
     const uid = this.$route.params.id;
     if (uid && uid !== "add") this.$store.dispatch("fetchAppointmentById", uid);
+    else if (uid && uid === "add") {
+      this.$router.push(`/appointment/add`);
+      this.$store.commit("setDetail", null);
+    }
   },
   watch: {
     hash() {
