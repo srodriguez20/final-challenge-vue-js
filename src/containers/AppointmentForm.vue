@@ -82,6 +82,7 @@
             name="place"
             placeholder="E.g. Ridge Coffe"
             required
+            @keydown.enter.prevent
           >
         </div>
         <div class="input-field spaced">
@@ -253,6 +254,7 @@ export default {
           street = place.address_components[i].long_name;
         }
       }
+      this.location.place = place.name;
       this.location.street = route + " " + street;
     }
   }
