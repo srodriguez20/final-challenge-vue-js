@@ -72,13 +72,25 @@
       </div>
       <div class="location">
         <h3>Location</h3>
-        <div class="input-field">
-          <label for="location">Location*</label>
+        <div class="input-field spaced">
+          <label for="place">Place*</label>
+          <input
+            ref="autocompletegoogle"
+            type="text"
+            v-model="location.place"
+            id="place"
+            name="place"
+            placeholder="E.g. Ridge Coffe"
+            required
+          >
+        </div>
+        <div class="input-field spaced">
+          <label for="street">Street*</label>
           <input
             type="text"
             v-model="location.street"
-            id="location"
-            name="location"
+            id="street"
+            name="street"
             placeholder="E.g. St 123, Av"
             required
           >
@@ -127,11 +139,17 @@ import { appointmentMixin } from "../mixins/appointment";
 
 export default {
   data() {
-    return {};
+    return { autocomplete: null };
   },
   components: { Avatar, Status, Button, Autocomplete, Chip },
   mixins: [appointmentMixin],
-
+  mounted() {
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.$refs.autocompletegoogle,
+      { types: ["establishment"] }
+    );
+    this.autocomplete.addListener("place_changed", this.fillInAddress);
+  },
   computed: {
     currentUser() {
       return this.$store.getters.currentUser;
@@ -221,6 +239,21 @@ export default {
     },
     removeTopic(i) {
       this.topics.splice(i, 1);
+    },
+    fillInAddress() {
+      let place = this.autocomplete.getPlace();
+      let street = "";
+      let route = "";
+      for (var i = 0; i < place.address_components.length; i++) {
+        let addressType = place.address_components[i].types[0];
+        if (addressType === "route") {
+          route = place.address_components[i].long_name;
+        }
+        if (addressType === "street_number") {
+          street = place.address_components[i].long_name;
+        }
+      }
+      this.location.street = route + " " + street;
     }
   }
 };

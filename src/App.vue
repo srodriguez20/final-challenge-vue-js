@@ -3,7 +3,7 @@
     <navigation/>
     <div class="aplication">
       <toolbar/>
-      <main class="content">
+      <main v-if="!loading" class="content">
         <template v-if="breakpoint>=lg">
           <home/>
           <section v-if="breakpoint>=lg" class="detail">
@@ -17,6 +17,7 @@
           <router-view/>
         </template>
       </main>
+      <loading v-else/>
     </div>
   </div>
 </template>
@@ -25,6 +26,7 @@
 import Home from "./containers/Home.vue";
 import Counter from "./containers/Counter.vue";
 import Toolbar from "./components/Toolbar.vue";
+import Loading from "./components/Loading.vue";
 import Navigation from "./components/Navigation.vue";
 import AppointmentDetail from "./containers/AppointmentDetail.vue";
 export default {
@@ -34,11 +36,12 @@ export default {
     Navigation,
     AppointmentDetail,
     Counter,
-    Home
+    Home,
+    Loading
   },
 
   data() {
-    return {};
+    return { loading: true };
   },
 
   methods: {
@@ -61,8 +64,10 @@ export default {
   created() {
     this.onResize();
     window.addEventListener("resize", this.onResize);
-    this.$store.dispatch("fetchAppointments");
     this.$store.dispatch("fetchUsers");
+    this.$store
+      .dispatch("fetchAppointments")
+      .then(() => (this.loading = false));
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
