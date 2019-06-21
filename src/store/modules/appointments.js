@@ -60,7 +60,7 @@ const store = {
             querySnapshot.forEach(docSnapshot => {
               let appointment = docSnapshot.data();
               appointment.uid = docSnapshot.id;
-              appointment.end = appointment.end.replace("UTC", "");
+              appointment.end = appointment.end.replace(" UTC", "");
               commit("setLast", docSnapshot.id);
               list.push(appointment);
             });
@@ -122,6 +122,7 @@ const store = {
           .catch(error => reject(error));
       });
     },
+    // eslint-disable-next-line no-empty-pattern
     countAppointments({}, { start, end }) {
       const collection = db.collection("appointments");
       return new Promise((resolve, reject) => {
